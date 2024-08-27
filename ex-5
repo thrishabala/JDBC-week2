@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+public class EmployeeManagementApp {
+    public static void main(String[] args) {
+        EmployeeDataRetrieval employeeData = new EmployeeDataRetrieval();
+        Scanner scanner = new Scanner(System.in);
+        String choice;
+
+        do {
+            System.out.println("Employee Management System:");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Update Employee");
+            System.out.println("3. Delete Employee");
+            System.out.println("4. View Employees");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+            choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter position: ");
+                    String position = scanner.nextLine();
+                    System.out.print("Enter salary: ");
+                    double salary = scanner.nextDouble();
+                    scanner.nextLine();  // Consume newline
+                    employeeData.addEmployee(name, position, salary);
+                    break;
+                case "2":
+                    System.out.print("Enter employee ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    System.out.print("Enter new name: ");
+                    name = scanner.nextLine();
+                    System.out.print("Enter new position: ");
+                    position = scanner.nextLine();
+                    System.out.print("Enter new salary: ");
+                    salary = scanner.nextDouble();
+                    scanner.nextLine();  // Consume newline
+                    employeeData.updateEmployee(id, name, position, salary);
+                    break;
+                case "3":
+                    System.out.print("Enter employee ID: ");
+                    id = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    employeeData.deleteEmployee(id);
+                    break;
+                case "4":
+                    employeeData.getEmployees();
+                    break;
+                case "5":
+                    System.out.println("Exiting the application...");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        } while (!choice.equals("5"));
+
+        scanner.close();
+    }
+}
