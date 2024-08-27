@@ -1,0 +1,68 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class EmployeeDataRetrieval {
+
+    public void addEmployee(String name, String position, double salary) {
+        String query = "INSERT INTO employees (name, position, salary) VALUES (?, ?, ?)";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, position);
+            preparedStatement.setDouble(3, salary);
+            preparedStatement.executeUpdate();
+            System.out.println("Employee added successfully!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmployee(int id, String name, String position, double salary) {
+        String query = "UPDATE employees SET name = ?, position = ?, salary = ? WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, position);
+            preparedStatement.setDouble(3, salary);
+            preparedStatement.setInt(4, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Employee updated successfully!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteEmployee(int id) {
+        String query = "DELETE FROM employees WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Employee deleted successfully!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        EmployeeDataRetrieval employeeData = new EmployeeDataRetrieval();
+
+        // Demonstrate CRUD operations
+        employeeData.addEmployee("John Doe", "Manager", 80000.00);
+        employeeData.addEmployee("Jane Smith", "Developer", 60000.00);
+
+        employeeData.updateEmployee(1, "John Doe", "Senior Manager", 90000.00);
+
+        employeeData.deleteEmployee(2);
+
+        employeeData.getEmployees(); // Retrieve and display all employee records
+    }
+}
